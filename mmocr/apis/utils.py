@@ -50,7 +50,7 @@ def update_pipeline_recog(cfg, idx=None):
     if idx is None:
         if cfg.get('pipeline',
                    None) and cfg.pipeline[1].type == 'MultiRotateAugOCR':
-            warnings.warn(warning_msg)
+            # warnings.warn(warning_msg)
             cfg.pipeline = [cfg.pipeline[0], *cfg.pipeline[1].transforms]
     else:
         if cfg[idx][1].type == 'MultiRotateAugOCR':
