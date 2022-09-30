@@ -35,5 +35,3 @@ test_dataloader = dict(
     dataset=lvdb_det_test)
 
 auto_scale_lr = dict(base_batch_size=16)
-
-load_from = '/home/anis/.cache/torch/hub/checkpoints/dbnet_r18_fpnc_sbn_1200e_icdar2015_20210329-ba3ab597.pth'
