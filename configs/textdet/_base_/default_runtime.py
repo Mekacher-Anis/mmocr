@@ -16,10 +16,11 @@ default_hooks = dict(
     visualization=dict(
         type='VisualizationHook',
         interval=1,
-        enable=False,
+        enable=True,
         show=False,
-        draw_gt=False,
-        draw_pred=False),
+        draw_gt=True,
+        draw_pred=True
+    ),
 )
 
 # Logging
@@ -34,7 +35,10 @@ val_evaluator = dict(type='HmeanIOUMetric')
 test_evaluator = val_evaluator
 
 # Visualization
-vis_backends = [dict(type='LocalVisBackend')]
+vis_backends = [
+    dict(type='LocalVisBackend'),
+    dict(type='TensorboardVisBackend')
+]
 visualizer = dict(
     type='TextDetLocalVisualizer',
     name='visualizer',
