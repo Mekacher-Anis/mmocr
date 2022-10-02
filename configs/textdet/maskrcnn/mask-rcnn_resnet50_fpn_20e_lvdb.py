@@ -1,8 +1,15 @@
 _base_ = [
-    '_base_dbnet_resnet18_fpnc.py',
+    '_base_mask-rcnn_resnet50_fpn.py',
     '../_base_/datasets/lvdb.py',
     '../_base_/default_runtime.py',
     '../_base_/schedules/schedule_sgd_20e.py',
+]
+
+
+# learning policy
+param_scheduler = [
+    dict(type='LinearLR', end=500, start_factor=0.001, by_epoch=False),
+    dict(type='MultiStepLR', milestones=[80, 128], end=160),
 ]
 
 # dataset settings

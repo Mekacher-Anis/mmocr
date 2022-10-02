@@ -1,8 +1,15 @@
 _base_ = [
-    '_base_dbnet_resnet18_fpnc.py',
+    '_base_psenet_resnet50_fpnf.py',
     '../_base_/datasets/lvdb.py',
     '../_base_/default_runtime.py',
-    '../_base_/schedules/schedule_sgd_20e.py',
+    '../_base_/schedules/schedule_adam_20e.py',
+]
+
+# optimizer
+optim_wrapper = dict(optimizer=dict(lr=1e-4))
+train_cfg = dict(val_interval=40)
+param_scheduler = [
+    dict(type='MultiStepLR', milestones=[200, 400], end=600),
 ]
 
 # dataset settings

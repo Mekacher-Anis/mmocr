@@ -1,8 +1,8 @@
 _base_ = [
-    '_base_dbnet_resnet18_fpnc.py',
     '../_base_/datasets/lvdb.py',
     '../_base_/default_runtime.py',
-    '../_base_/schedules/schedule_sgd_20e.py',
+    '../_base_/schedules/schedule_adam_20e.py',
+    '_base_panet_resnet18_fpem-ffm.py',
 ]
 
 # dataset settings

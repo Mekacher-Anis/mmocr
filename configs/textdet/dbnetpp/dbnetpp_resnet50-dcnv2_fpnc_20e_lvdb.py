@@ -1,5 +1,5 @@
 _base_ = [
-    '_base_dbnet_resnet18_fpnc.py',
+    '_base_dbnetpp_resnet50-dcnv2_fpnc.py',
     '../_base_/datasets/lvdb.py',
     '../_base_/default_runtime.py',
     '../_base_/schedules/schedule_sgd_20e.py',

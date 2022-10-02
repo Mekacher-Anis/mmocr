@@ -1,9 +1,10 @@
 _base_ = [
-    '_base_dbnet_resnet18_fpnc.py',
+    '_base_drrg_resnet50_fpn-unet.py',
     '../_base_/datasets/lvdb.py',
     '../_base_/default_runtime.py',
     '../_base_/schedules/schedule_sgd_20e.py',
 ]
+
 
 # dataset settings
 lvdb_det_train = _base_.lvdb_det_train

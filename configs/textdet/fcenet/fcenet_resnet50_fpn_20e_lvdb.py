@@ -1,5 +1,5 @@
 _base_ = [
-    '_base_dbnet_resnet18_fpnc.py',
+    '_base_fcenet_resnet50_fpn.py',
     '../_base_/datasets/lvdb.py',
     '../_base_/default_runtime.py',
     '../_base_/schedules/schedule_sgd_20e.py',
@@ -35,3 +35,7 @@ test_dataloader = dict(
     dataset=lvdb_det_test)
 
 auto_scale_lr = dict(base_batch_size=16)
+# learning policy
+param_scheduler = [
+    dict(type='PolyLR', power=0.9, eta_min=1e-7, end=1500),
+]
