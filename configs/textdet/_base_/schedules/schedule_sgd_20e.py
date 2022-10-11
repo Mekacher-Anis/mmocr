@@ -7,5 +7,5 @@ val_cfg = dict(type='ValLoop')
 test_cfg = dict(type='TestLoop')
 # learning policy
 param_scheduler = [
-    dict(type='PolyLR', power=0.9, eta_min=1e-7, end=1),
+    dict(type='PolyLR', power=0.9, eta_min=1e-7, end=20),
 ]
