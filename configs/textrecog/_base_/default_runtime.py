@@ -41,7 +41,10 @@ val_evaluator = dict(
 test_evaluator = val_evaluator
 
 # Visualization
-vis_backends = [dict(type='LocalVisBackend')]
+vis_backends = [
+    dict(type='LocalVisBackend'),
+    dict(type='TensorboardVisBackend')
+]
 visualizer = dict(
     type='TextRecogLocalVisualizer',
     name='visualizer',

@@ -56,4 +56,4 @@ val_evaluator = dict(
     dataset_prefixes=['CUTE80', 'IIIT5K', 'SVT', 'SVTP', 'IC13', 'IC15'])
 test_evaluator = val_evaluator
 
-auto_scale_lr = dict(base_batch_size=512 * 4)
+load_from='/home/anis/Documents/AI/ML/OCR/educational_video_ocr/master_resnet31_12e_st_mj_sa_epoch_9.pth'
