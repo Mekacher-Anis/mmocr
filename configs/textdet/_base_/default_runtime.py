@@ -41,5 +41,4 @@ vis_backends = [
 ]
 visualizer = dict(
     type='TextDetLocalVisualizer',
-    name='visualizer',
     vis_backends=vis_backends)

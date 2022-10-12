@@ -47,5 +47,4 @@ vis_backends = [
 ]
 visualizer = dict(
     type='TextRecogLocalVisualizer',
-    name='visualizer',
     vis_backends=vis_backends)
