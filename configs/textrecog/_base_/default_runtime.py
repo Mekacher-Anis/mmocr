@@ -16,10 +16,10 @@ default_hooks = dict(
     visualization=dict(
         type='VisualizationHook',
         interval=1,
-        enable=False,
+        enable=True,
         show=False,
-        draw_gt=False,
-        draw_pred=False),
+        draw_gt=True,
+        draw_pred=True),
 )
 # Logging
 log_level = 'INFO'
@@ -32,6 +32,10 @@ resume = False
 val_evaluator = dict(
     type='MultiDatasetsEvaluator',
     metrics=[
+        dict(
+            type='OneMinusNEDMetric',
+            mode=['exact', 'ignore_case', 'ignore_case_symbol']
+        ),
         dict(
             type='WordMetric',
             mode=['exact', 'ignore_case', 'ignore_case_symbol']),
