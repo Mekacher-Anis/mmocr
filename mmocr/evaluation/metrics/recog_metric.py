@@ -244,9 +244,16 @@ class OneMinusNEDMetric(BaseMetric):
     def __init__(self,
                  valid_symbol: str = '[^A-Z^a-z^0-9^\u4e00-\u9fa5]',
                  collect_device: str = 'cpu',
+                 mode: Union[str, Sequence[str]] = 'ignore_case_symbol',
                  prefix: Optional[str] = None) -> None:
         super().__init__(collect_device, prefix)
         self.valid_symbol = re.compile(valid_symbol)
+        if isinstance(mode, str):
+            mode = [mode]
+        assert mmengine.is_seq_of(mode, str)
+        assert set(mode).issubset(
+            {'exact', 'ignore_case', 'ignore_case_symbol'})
+        self.mode = set(mode)
 
     def process(self, data_batch: Sequence[Dict],
                 data_samples: Sequence[Dict]) -> None:
@@ -261,13 +268,32 @@ class OneMinusNEDMetric(BaseMetric):
         for data_sample in data_samples:
             pred_text = data_sample.get('pred_text').get('item')
             gt_text = data_sample.get('gt_text').get('item')
-            gt_text_lower = gt_text.lower()
-            pred_text_lower = pred_text.lower()
-            gt_text_lower_ignore = self.valid_symbol.sub('', gt_text_lower)
-            pred_text_lower_ignore = self.valid_symbol.sub('', pred_text_lower)
-            norm_ed = Levenshtein.normalized_distance(pred_text_lower_ignore,
-                                                      gt_text_lower_ignore)
-            result = dict(norm_ed=norm_ed)
+            
+            dist_exact = 0
+            dist_ignore_case = 0
+            dist_ignore_case_symbol = 0
+            
+            if 'ignore_case' in self.mode or 'ignore_case_symbol' in self.mode:
+                pred_text_lower = pred_text.lower()
+                gt_text_lower = gt_text.lower()
+            if 'ignore_case_symbol' in self.mode:
+                gt_text_lower_ignore = self.valid_symbol.sub('', gt_text_lower)
+                pred_text_lower_ignore = self.valid_symbol.sub('', pred_text_lower)
+                dist_ignore_case_symbol = Levenshtein.normalized_distance(
+                    pred_text_lower_ignore,
+                    gt_text_lower_ignore)
+            if 'ignore_case' in self.mode:
+                dist_ignore_case = Levenshtein.normalized_distance(
+                    pred_text_lower,
+                    gt_text_lower)
+            if 'exact' in self.mode:
+                dist_exact = Levenshtein.normalized_distance(pred_text, gt_text)
+                
+            result = dict(
+                exact=dist_exact,
+                ignore_case=dist_ignore_case,
+                ignore_case_symbol=dist_ignore_case_symbol)
+            
             self.results.append(result)
 
     def compute_metrics(self, results: Sequence[Dict]) -> Dict:
@@ -280,13 +306,16 @@ class OneMinusNEDMetric(BaseMetric):
             Dict: The computed metrics. The keys are the names of the
             metrics, and the values are corresponding results.
         """
-
+        
         gt_word_num = len(results)
-        norm_ed = [result['norm_ed'] for result in results]
-        norm_ed_sum = sum(norm_ed)
-        normalized_edit_distance = norm_ed_sum / max(1, gt_word_num)
         eval_res = {}
-        eval_res['1-N.E.D'] = 1.0 - normalized_edit_distance
+        
+        for mode in self.mode:
+            norm_ed = [result[mode] for result in results]
+            norm_ed_sum = sum(norm_ed)
+            normalized_edit_distance = norm_ed_sum / max(1, gt_word_num)
+            eval_res[f'1-N.E.D_{mode}'] = 1.0 - normalized_edit_distance
+
         for key, value in eval_res.items():
             eval_res[key] = float(f'{value:.4f}')
         return eval_res
