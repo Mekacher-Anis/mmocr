@@ -163,12 +163,12 @@ class Dictionary:
             self.start_idx = len(self._dict) - 1
             self.end_idx = self.start_idx
         else:
+            if self.with_end:
+                self._dict = [self.end_token] + self._dict
+                self.end_idx = 0
             if self.with_start:
                 self._dict.append(self.start_token)
                 self.start_idx = len(self._dict) - 1
-            if self.with_end:
-                self._dict.append(self.end_token)
-                self.end_idx = len(self._dict) - 1
 
         # padding
         self.padding_idx = None

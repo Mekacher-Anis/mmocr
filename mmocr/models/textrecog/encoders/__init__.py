@@ -5,8 +5,9 @@ from .channel_reduction_encoder import ChannelReductionEncoder
 from .nrtr_encoder import NRTREncoder
 from .sar_encoder import SAREncoder
 from .satrn_encoder import SATRNEncoder
+from .parseq_encoder import PARSeqEncoder
 
 __all__ = [
     'SAREncoder', 'NRTREncoder', 'BaseEncoder', 'ChannelReductionEncoder',
-    'SATRNEncoder', 'ABIEncoder'
+    'SATRNEncoder', 'ABIEncoder', 'PARSeqEncoder'
 ]
