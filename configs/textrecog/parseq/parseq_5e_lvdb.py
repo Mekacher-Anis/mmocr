@@ -45,3 +45,5 @@ test_dataloader = dict(
 val_evaluator = dict(
     dataset_prefixes=['LVDB'])
 test_evaluator = val_evaluator
+
+load_from = 'https://sf.anismk.de/static/textrecog/parseq_5e_ldvb_epoch_2.ckpt'

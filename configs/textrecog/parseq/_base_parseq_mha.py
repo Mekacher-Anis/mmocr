@@ -40,7 +40,7 @@ train_pipeline = [
         type='RandomApply',
         prob=0.25,
         transforms=[
-            dict(type='TorchVisionWrapper', op='RandAugment')
+            dict(type='TorchVisionWrapper', op='RandAugment', num_ops=3, magnitude=5)
         ]),
     dict(
         type='RandomApply',
@@ -73,6 +73,3 @@ test_pipeline = [
         type='PackTextRecogInputs',
         meta_keys=('img_path', 'ori_shape', 'img_shape', 'valid_ratio'))
 ]
-
-
-load_from = 'https://sf.anismk.de/static/textrecog/parseq_5e_ldvb_epoch_2.ckpt'
