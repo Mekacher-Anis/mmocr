@@ -59,6 +59,15 @@ train_pipeline = [
             )
         ]),
     dict(
+        type='RandomApply',
+        prob=0.25,
+        transforms=[
+            dict(
+                type='ImgAugWrapper',
+                args=[dict(cls='AdditivePoissonNoise', scale=(0, 40), per_channel=True)]
+            )
+        ]),
+    dict(
         type='PackTextRecogInputs',
         meta_keys=('img_path', 'ori_shape', 'img_shape', 'valid_ratio'))
 ]
