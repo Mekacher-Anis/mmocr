@@ -57,3 +57,5 @@ val_evaluator = dict(
 test_evaluator = val_evaluator
 
 load_from='/home/anis/Documents/AI/ML/OCR/educational_video_ocr/master_resnet31_12e_st_mj_sa_epoch_9.pth'
+
+auto_scale_lr = dict(base_batch_size=512 * 4)
