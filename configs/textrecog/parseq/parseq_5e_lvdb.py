@@ -45,5 +45,3 @@ test_dataloader = dict(
 val_evaluator = dict(
     dataset_prefixes=['LVDB'])
 test_evaluator = val_evaluator
-
-load_from='/home/anis/Documents/AI/ML/OCR/parseq/outputs/parseq/2022-10-21_15-05-50/checkpoints/best_model.ckpt'
