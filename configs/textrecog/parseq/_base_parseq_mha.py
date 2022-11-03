@@ -38,19 +38,19 @@ train_pipeline = [
     dict(type='Resize', scale=(128, 32), keep_ratio=False),
     dict(
         type='RandomApply',
-        prob=0.25,
+        prob=0.5,
         transforms=[
             dict(type='TorchVisionWrapper', op='RandAugment', num_ops=3, magnitude=5)
         ]),
     dict(
         type='RandomApply',
-        prob=0.25,
+        prob=0.5,
         transforms=[
             dict(type='TorchVisionWrapper', op='RandomInvert')
         ]),
     dict(
         type='RandomApply',
-        prob=0.25,
+        prob=0.5,
         transforms=[
             dict(
                 type='TorchVisionWrapper',
@@ -60,7 +60,7 @@ train_pipeline = [
         ]),
     dict(
         type='RandomApply',
-        prob=0.25,
+        prob=0.5,
         transforms=[
             dict(
                 type='ImgAugWrapper',
