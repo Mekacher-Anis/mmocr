@@ -136,3 +136,51 @@ class CEModuleLoss(BaseTextRecogModuleLoss):
         losses = dict(loss_ce=loss_ce)
 
         return losses
+
+@MODELS.register_module()
+class PARSeqCEModuleLoss(CEModuleLoss):
+
+    def __init__(self,
+                 dictionary: Union[Dict, Dictionary],
+                 max_seq_len: int = 25,
+                 letter_case: str = 'unchanged',
+                 pad_with: str = 'auto',
+                 ignore_char: Union[int, str] = 'padding',
+                 flatten: bool = True,
+                 reduction: str = 'none',
+                 ignore_first_char: bool = True
+                ):
+        super().__init__(dictionary, max_seq_len, letter_case, pad_with,
+                         ignore_char, flatten, reduction, ignore_first_char)
+        
+    def forward(self, outputs: torch.Tensor,
+                data_samples: Sequence[TextRecogDataSample]) -> Dict:
+        """
+        Args:
+            outputs (Tensor): A raw logit tensor of shape :math:`(P, N, T, C)`.
+            data_samples (list[TextRecogDataSample]): List of
+                ``TextRecogDataSample`` which are processed by ``get_target``.
+
+        Returns:
+            dict: A loss dict with the key ``loss_ce``.
+        """
+        targets = list()
+        for data_sample in data_samples:
+            targets.append(data_sample.gt_text.padded_indexes)
+        targets = torch.stack(targets, dim=0).long()
+        if self.ignore_first_char:
+            targets = targets[:, 1:].contiguous()
+            
+        loss = 0
+        for i in range(outputs.shape[0]):
+            if self.flatten:
+                out = outputs[i].view(-1, outputs[i].size(-1))
+                targets = targets.view(-1)
+            else:
+                out = outputs[i].permute(0, 2, 1).contiguous()
+            loss += self.loss_ce(out, targets.to(out.device))
+            
+        loss /= outputs.shape[0]
+        losses = dict(loss_ce=loss)
+
+        return losses

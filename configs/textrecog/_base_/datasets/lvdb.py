@@ -18,6 +18,6 @@ lvdb_rec_val = dict(
 lvdb_rec_test = dict(
     type=dataset_type,
     data_root=data_root,
-    ann_file='recog_val_label_subset.json',
+    ann_file='recog_test_label.json',
     test_mode=False,
     pipeline=None)

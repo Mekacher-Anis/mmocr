@@ -193,19 +193,20 @@ class PARSeqDecoder(BaseDecoder):
         tgt_out = tgt[:, 1:]
         # The [EOS] token is not depended upon by any other token in any permutation ordering
         tgt_padding_mask = (tgt_in == self.PAD) | (tgt_in == self.EOS)
-
-        all_logits = torch.Tensor(device=self._device)
+        
+        
+        all_logits = []
         for i, perm in enumerate(tgt_perms):
             tgt_mask, query_mask = self.generate_attn_masks(perm)
             out = self.decode(tgt_in, out_enc, tgt_mask, tgt_padding_mask, tgt_query_mask=query_mask)
-            logits: torch.Tensor = self.head(out).flatten(end_dim=1)
-            all_logits = torch.cat(all_logits, logits)
+            logits: torch.Tensor = self.head(out)
+            all_logits.append(logits)
             # After the second iteration (i.e. done with canonical and reverse orderings),
             # remove the [EOS] tokens for the succeeding perms
             if i == 1:
                 tgt_out = torch.where(tgt_out == self.EOS, self.PAD, tgt_out)
-
-        return all_logits[0]
+                
+        return torch.stack(all_logits, dim=0)
     
     def forward_test(
         self,

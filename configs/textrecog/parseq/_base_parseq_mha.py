@@ -21,7 +21,11 @@ model = dict(
         type='PARSeqDecoder',
         postprocessor=dict(type='AttentionPostprocessor'),
         module_loss=dict(
-            type='CEModuleLoss', reduction='mean', ignore_first_char=True, flatten=True),
+            type='PARSeqCEModuleLoss',
+            reduction='mean',
+            ignore_first_char=True,
+            flatten=True,
+        ),
         dictionary=dictionary),
     data_preprocessor=dict(
         type='TextRecogDataPreprocessor',
@@ -64,7 +68,7 @@ train_pipeline = [
         transforms=[
             dict(
                 type='ImgAugWrapper',
-                args=[dict(cls='AdditivePoissonNoise', scale=(0, 40), per_channel=True)]
+                args=[dict(cls='AdditivePoissonNoise', lam=(0, 10), per_channel=True)]
             )
         ]),
     dict(
