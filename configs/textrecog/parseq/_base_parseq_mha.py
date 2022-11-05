@@ -77,7 +77,11 @@ train_pipeline = [
 ]
 
 test_pipeline = [
-    dict(type='LoadImageFromFile', file_client_args=file_client_args),
+    dict(
+         type='LoadImageFromFile',
+         file_client_args=file_client_args,
+         ignore_empty=True,
+         min_size=2),
     dict(type='Resize', scale=(128, 32), keep_ratio=False),
     # add loading annotation after ``Resize`` because ground truth
     # does not need to do resize data transform
