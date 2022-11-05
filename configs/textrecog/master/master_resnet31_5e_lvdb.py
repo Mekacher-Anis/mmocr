@@ -46,4 +46,4 @@ val_evaluator = dict(
     dataset_prefixes=['LVDB'])
 test_evaluator = val_evaluator
 
-load_from='/home/mekachera/bachelorarbeit/mmocr/work_dirs/master_resnet31_5e_lvdb/epoch_3.pth'
+load_from='https://sf.anismk.de/static/textrecog/master_resnet31_5e_lvdb_epoch_3.pth'

@@ -2,9 +2,19 @@ _base_ = [
     '../_base_/datasets/iam.py',
     '../_base_/datasets/lvdb.py',
     '../_base_/default_runtime.py',
-    '../_base_/schedules/schedule_adam_step_5e.py',
+    '../_base_/schedules/schedule_adam_10k.py',
     '_base_parseq_mha.py',
 ]
+
+default_hooks = dict(
+    checkpoint=dict(
+        type='CheckpointHook',
+        interval=501,
+        by_epoch=False,
+        save_best=['LVDB/recog/1-N.E.D_exact', 'LVDB/recog/word_acc'],
+        rule='greater'
+    ), 
+)
 
 train_dataset = dict(
     type='ConcatDataset', datasets=[_base_.iam_rec_train], pipeline=_base_.train_pipeline)
