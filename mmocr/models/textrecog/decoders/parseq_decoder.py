@@ -134,6 +134,8 @@ class PARSeqDecoder(BaseDecoder):
         self.decode_ar = decode_ar
         self.refine_iters = refine_iters
         self.layers = transformer._get_clones(self.decoder_layer, num_layers)
+        # no grad required for the original decoder layer
+        self.decoder_layer.requires_grad_(False)
         self.num_layers = num_layers
         self.norm = nn.LayerNorm(embed_dim)
         
@@ -170,10 +172,10 @@ class PARSeqDecoder(BaseDecoder):
         tgt_query = self.dropout(tgt_query)
         for i, mod in enumerate(self.layers):
             last = i == len(self.layers) - 1
-            query, content = mod(tgt_query, tgt_emb, memory, tgt_query_mask, tgt_mask, tgt_padding_mask,
+            tgt_query, tgt_emb = mod(tgt_query, tgt_emb, memory, tgt_query_mask, tgt_mask, tgt_padding_mask,
                                  update_content=not last)
-        query = self.norm(query)
-        return query
+        tgt_query = self.norm(tgt_query)
+        return tgt_query
         
     def forward_train(
         self,

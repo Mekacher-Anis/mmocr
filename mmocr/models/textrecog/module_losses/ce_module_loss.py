@@ -170,12 +170,13 @@ class PARSeqCEModuleLoss(CEModuleLoss):
         targets = torch.stack(targets, dim=0).long()
         if self.ignore_first_char:
             targets = targets[:, 1:].contiguous()
-            
+        if self.flatten:
+            targets = targets.view(-1)
+        
         loss = 0
         for i in range(outputs.shape[0]):
             if self.flatten:
                 out = outputs[i].view(-1, outputs[i].size(-1))
-                targets = targets.view(-1)
             else:
                 out = outputs[i].permute(0, 2, 1).contiguous()
             loss += self.loss_ce(out, targets.to(out.device))
