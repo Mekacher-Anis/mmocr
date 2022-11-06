@@ -469,6 +469,10 @@ class MMOCR:
                 'sdmgr/'
                 'sdmgr_unet16_60e_wildreceipt/'
                 'sdmgr_unet16_60e_wildreceipt_20220825_151648-22419f37.pth'
+            },
+            'PARSeq': {
+                'config': 'textrecog/parseq/parseq_5e_lvdb.py',
+                'ckpt': 'https://sf.anismk.de/static/textrecog/parseq_5e_ldvb_epoch_2.ckpt'
             }
         }
         if model_name not in model_dict:
