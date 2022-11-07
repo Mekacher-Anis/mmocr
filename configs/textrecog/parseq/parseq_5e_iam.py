@@ -16,8 +16,58 @@ default_hooks = dict(
     ), 
 )
 
+# custom pipeline to add color jitter
+train_pipeline = [
+    dict(
+        type='LoadImageFromFile',
+        file_client_args=dict(backend='disk'),
+        ignore_empty=True,
+        min_size=2),
+    dict(type='LoadOCRAnnotations', with_text=True),
+    dict(type='Resize', scale=(128, 32), keep_ratio=False),
+    dict(
+        type='TorchVisionWrapper',
+        op='ColorJitter',
+        brightness=32.0 / 255,
+        saturation=0.5),
+    dict(
+        type='RandomApply',
+        prob=0.5,
+        transforms=[
+            dict(type='TorchVisionWrapper', op='RandAugment', num_ops=3, magnitude=5)
+        ]),
+    dict(
+        type='RandomApply',
+        prob=0.5,
+        transforms=[
+            dict(type='TorchVisionWrapper', op='RandomInvert')
+        ]),
+    dict(
+        type='RandomApply',
+        prob=0.5,
+        transforms=[
+            dict(
+                type='TorchVisionWrapper',
+                op='GaussianBlur',
+                kernel_size=(5, 9)
+            )
+        ]),
+    dict(
+        type='RandomApply',
+        prob=0.5,
+        transforms=[
+            dict(
+                type='ImgAugWrapper',
+                args=[dict(cls='AdditivePoissonNoise', lam=(0, 10), per_channel=True)]
+            )
+        ]),
+    dict(
+        type='PackTextRecogInputs',
+        meta_keys=('img_path', 'ori_shape', 'img_shape', 'valid_ratio'))
+]
+
 train_dataset = dict(
-    type='ConcatDataset', datasets=[_base_.iam_rec_train], pipeline=_base_.train_pipeline)
+    type='ConcatDataset', datasets=[_base_.iam_rec_train], pipeline=train_pipeline)
 val_dataset = dict(
     type='ConcatDataset', datasets=[_base_.lvdb_rec_val], pipeline=_base_.test_pipeline)
 test_dataset = dict(
