@@ -100,10 +100,13 @@ class MMOCRInferencer(BaseMMOCRInferencer):
                         # Roughly convert the polygon to a quadangle with
                         # 4 points
                         quad = bbox2poly(poly2bbox(polygon)).tolist()
-                        self.rec_inputs.append(crop_img(img, quad))
-                    result['rec'].append(
-                        self.textrec_inferencer(
-                            self.rec_inputs, get_datasample=True))
+                        self.rec_inputs.append(crop_img(img, quad, 0, 0))
+                    if self.rec_inputs:
+                        result['rec'].append(
+                            self.textrec_inferencer(
+                                self.rec_inputs, get_datasample=True))
+                    else:
+                        result['rec'].append([])
                 if self.mode == 'det_rec_kie':
                     self.kie_inputs = []
                     for img, det_data_sample, rec_data_samples in zip(
