@@ -26,14 +26,14 @@
    :maxdepth: 2
    :caption: 基础概念
 
+   basic_concepts/structures.md
+   basic_concepts/models.md
+   basic_concepts/evaluation.md
    basic_concepts/overview.md
    basic_concepts/data_flow.md
    basic_concepts/datasets.md
-   basic_concepts/structures.md
-   basic_concepts/models.md
    basic_concepts/transforms.md
    basic_concepts/visualizers.md
-   basic_concepts/evaluation.md
    basic_concepts/convention.md
    basic_concepts/engine.md
 
@@ -51,6 +51,8 @@
    :maxdepth: 2
    :caption: 数据集支持
 
+   user_guides/data_prepare/datasetzoo.md
+   user_guides/data_prepare/dataset_preparer.md
    user_guides/data_prepare/det.md
    user_guides/data_prepare/recog.md
    user_guides/data_prepare/kie.md
@@ -60,6 +62,7 @@
    :caption: 模型支持
 
    modelzoo.md
+   backbones.md
    textdet_models.md
    textrecog_models.md
    kie_models.md

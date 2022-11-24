@@ -121,7 +121,7 @@ python mmocr/ocr.py --det DB_r18 --recog CRNN demo/demo_text_ocr.jpg --show
 Also can run the following codes in your Python interpreter:
 
 ```python
-from mmocr.utils.ocr import MMOCR
+from mmocr.ocr import MMOCR
 ocr = MMOCR(recog='CRNN', det='DB_r18')
 ocr.readtext('demo_text_ocr.jpg', show=True)
 ```
@@ -191,7 +191,7 @@ docker run --gpus all --shm-size=8g -it -v {DATA_DIR}:/mmocr/data mmocr
 
 MMOCR has different version requirements on MMEngine, MMCV and MMDetection at each release to guarantee the implementation correctness. Please refer to the table below and ensure the package versions fit the requirement.
 
-| MMOCR         | MMEngine                    | MMCV                       | MMDetection                 |
-| ------------- | --------------------------- | -------------------------- | --------------------------- |
-| dev-1.x       | 0.1.0 \<= mmengine \< 1.0.0 | 2.0.0rc1 \<= mmcv \< 2.1.0 | 3.0.0rc0 \<= mmdet \< 3.1.0 |
-| 1.0.0rc0, rc1 | 0.0.0 \<= mmengine \< 0.2.0 | 2.0.0rc1 \<= mmcv \< 2.1.0 | 3.0.0rc0 \<= mmdet \< 3.1.0 |
+| MMOCR          | MMEngine                    | MMCV                       | MMDetection                 |
+| -------------- | --------------------------- | -------------------------- | --------------------------- |
+| dev-1.x        | 0.1.0 \<= mmengine \< 1.0.0 | 2.0.0rc1 \<= mmcv \< 2.1.0 | 3.0.0rc0 \<= mmdet \< 3.1.0 |
+| 1.0.0rc\[0-3\] | 0.0.0 \<= mmengine \< 0.2.0 | 2.0.0rc1 \<= mmcv \< 2.1.0 | 3.0.0rc0 \<= mmdet \< 3.1.0 |

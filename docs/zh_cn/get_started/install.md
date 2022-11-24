@@ -118,7 +118,7 @@ python mmocr/ocr.py --det DB_r18 --recog CRNN demo/demo_text_ocr.jpg --show
 也可以在 Python 解释器中运行以下代码：
 
 ```python
-from mmocr.utils.ocr import MMOCR
+from mmocr.ocr import MMOCR
 ocr = MMOCR(recog='CRNN', det='DB_r18')
 ocr.readtext('demo_text_ocr.jpg', show=True)
 ```
@@ -192,7 +192,7 @@ docker run --gpus all --shm-size=8g -it -v {实际数据目录}:/mmocr/data mmoc
 
 为了确保代码实现的正确性，MMOCR 每个版本都有可能改变对 MMEngine、MMCV 和 MMDetection 版本的依赖。请根据以下表格确保版本之间的相互匹配。
 
-| MMOCR         | MMEngine                    | MMCV                       | MMDetection                 |
-| ------------- | --------------------------- | -------------------------- | --------------------------- |
-| dev-1.x       | 0.1.0 \<= mmengine \< 1.0.0 | 2.0.0rc1 \<= mmcv \< 2.1.0 | 3.0.0rc0 \<= mmdet \< 3.1.0 |
-| 1.0.0rc0, rc1 | 0.0.0 \<= mmengine \< 0.2.0 | 2.0.0rc1 \<= mmcv \< 2.1.0 | 3.0.0rc0 \<= mmdet \< 3.1.0 |
+| MMOCR          | MMEngine                    | MMCV                       | MMDetection                 |
+| -------------- | --------------------------- | -------------------------- | --------------------------- |
+| dev-1.x        | 0.1.0 \<= mmengine \< 1.0.0 | 2.0.0rc1 \<= mmcv \< 2.1.0 | 3.0.0rc0 \<= mmdet \< 3.1.0 |
+| 1.0.0rc\[0-3\] | 0.0.0 \<= mmengine \< 0.2.0 | 2.0.0rc1 \<= mmcv \< 2.1.0 | 3.0.0rc0 \<= mmdet \< 3.1.0 |
