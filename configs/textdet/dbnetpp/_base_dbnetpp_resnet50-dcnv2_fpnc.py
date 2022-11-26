@@ -53,7 +53,7 @@ train_pipeline = [
     dict(type='Pad', size=(640, 640)),
     dict(
         type='PackTextDetInputs',
-        meta_keys=('img_path', 'ori_shape', 'img_shape'))
+        meta_keys=('img_path', 'ori_shape', 'img_shape', 'scale_factor'))
 ]
 
 test_pipeline = [
